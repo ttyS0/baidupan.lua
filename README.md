@@ -10,6 +10,10 @@ Baidu Netdisk API written in Lua.
 
 **lua-http** is available in `luarocks`, while **json.lua** should be installed manually. (**rxi-json-lua** in `luarocks` is an quite old version.)
 
+## Examples
+
+See [example.lua](example.lua).
+
 ## Documentation
 
 **Only loading cookies to login Baidu Netdisk is supported.**
@@ -319,7 +323,3 @@ the home node with the specific path.
 |-62|password try limits exceeded|
 |-64|invalid description|
 |-70|malware share|
-
-## Examples
-
-See [example.lua](example.lua).
