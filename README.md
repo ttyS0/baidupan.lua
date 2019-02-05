@@ -273,97 +273,97 @@ the home node with the specific path.
 
 ### Error code
 
-**code**|**description**
+|**code**|**description**|
 
-:-----:|:-----:
+|-----|-----|
 
-0|success
+|0|success|
 
-1|server error
+|1|server error|
 
-2|argument error
+|2|argument error|
 
-3|lost session
+|3|lost session|
 
-4|storage problem
+|4|storage problem|
 
-12|multiple procedure errors
+|12|multiple procedure errors|
 
-14|network error
+|14|network error|
 
-15|operation failed
+|15|operation failed|
 
-16|network error
+|16|network error|
 
-105|linking failed
+|105|linking failed|
 
-106|file read error
+|106|file read error|
 
-108|invalid file name
+|108|invalid file name|
 
-110|share limits exceeded
+|110|share limits exceeded|
 
-111|transfer error
+|111|transfer error|
 
-112|lost session
+|112|lost session|
 
-113|sign error
+|113|sign error|
 
-114|invalid task
+|114|invalid task|
 
-115|invalid share
+|115|invalid share|
 
-116|invalid share
+|116|invalid share|
 
-117|invalid share
+|117|invalid share|
 
-118|invalid key check
+|118|invalid key check|
 
--1|share is disabled
+|-1|share is disabled|
 
--2|invalid user
+|-2|invalid user|
 
--4|invalid session
+|-4|invalid session|
 
--5|invalid session
+|-5|invalid session|
 
--6|invalid session
+|-6|invalid session|
 
--7|invalid share
+|-7|invalid share|
 
--8|invalid share
+|-8|invalid share|
 
--9|invalid password for share
+|-9|invalid password for share|
 
--10|share limits exceeded
+|-10|share limits exceeded|
 
--11|invalid session
+|-11|invalid session|
 
--12|invalid 
+|-12|invalid |
 
--20|require verifying
+|-20|require verifying|
 
--21|forbidden share
+|-21|forbidden share|
 
--22|invalid operation on shared files
+|-22|invalid operation on shared files|
 
--30|file has existed
+|-30|file has existed|
 
--31|file saving failed
+|-31|file saving failed|
 
--32|no space left
+|-32|no space left|
 
--33|operation limits exceeded
+|-33|operation limits exceeded|
 
--40|recommendation failed
+|-40|recommendation failed|
 
--60|recommendation failed
+|-60|recommendation failed|
 
--62|password try limits exceeded
+|-62|password try limits exceeded|
 
--64|invalid description
+|-64|invalid description|
 
--70|malware share
+|-70|malware share|
 
 ## Examples
 
