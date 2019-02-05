@@ -2,6 +2,8 @@
 
 Baidu Netdisk API written in Lua.
 
+百度网盘 Lua 版 API
+
 ## Dependencies
 
 * [lua-http](https://github.com/daurnimator/lua-http)
