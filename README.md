@@ -96,7 +96,13 @@ the image url of the verify code
 
 the raw image data of the verify code
 
-#### verify.new()
+#### verify.new(bdstoken)
+
+***Parameters***
+
+*string* `bdstoken`
+
+a field existing in various Baidu page, however, you can avoid manual creating a instance by `share:verify`.
 
 ***Return*** *baidupan.verify*
 
