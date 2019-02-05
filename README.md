@@ -84,11 +84,17 @@ However, it seldom needs manual creating in practice.
 
 the unique id of the verify code
 
-#### verify.image
+#### verify.url
 
 *string*
 
 the image url of the verify code
+
+#### verify.image
+
+*string* (byte[])
+
+the raw image data of the verify code
 
 #### verify.new()
 
