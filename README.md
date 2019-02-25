@@ -219,7 +219,7 @@ Create a new share instance.
 
 *string* `url`
 
-the share page url starting with `<a href="https://pan.baidu.com/s/`">https://pan.baidu.com/s/`</a> (however, shortened url is also supported :D)
+the share page url starting with `https://pan.baidu.com/s/` (however, shortened url is also supported :D)
 
 *string* `password` (optional)
 
