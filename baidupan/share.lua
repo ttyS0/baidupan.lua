@@ -33,7 +33,6 @@ end
 
 function instance_children:download(id, path, verify)
     assert(type(path) == "string", "Invalid path")
-    if path == "/" then return self:root() end
     self:update()
     local query = {
         ["channel"] = "chunlei",
@@ -133,7 +132,6 @@ function instance_children:node(path)
 end
 
 function instance_children:transfer(id, path, node)
-    if path == "/" then return self:root() end
     self:update()
     local query = {
         ["channel"] = "chunlei",
