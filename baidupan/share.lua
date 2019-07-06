@@ -215,6 +215,10 @@ function instance_children:update(verify)
     return 0
 end
 
+function instance_children:mkdir(parent, name)
+    return nil
+end
+
 return {
     new = new
 }

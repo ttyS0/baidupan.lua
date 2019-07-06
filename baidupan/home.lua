@@ -19,7 +19,11 @@ function home:update()
         return
     end
     local html = https.get("https://pan.baidu.com/disk/home")
-    self.bdstoken = assert(html:match([["bdstoken"..-([^",%s]+)]]), "Page error!")
+    local bdstoken = assert(html:match([["bdstoken"..-([^",%s]+)]]), "Page error!")
+    -- Strange potential "null" when refreshing
+    if bdstoken ~= "null" then
+        self.bdstoken = assert(bdstoken, "Page error!")
+    end
     self.timestamp = assert(html:match([["timestamp"..-([^",%s]+)]]), "Page error!")
     self.sign1 = assert(html:match([["sign1"..-([^",%s]+)]]), "Page error!")
     self.sign3 = assert(html:match([["sign3"..-([^",%s]+)]]), "Page error!")
@@ -27,7 +31,7 @@ function home:update()
 end
 
 function home:list(path, parent)
-    home:update()
+    self:update()
     path = path or "/"
     assert(type(path) == "string", "Invalid path")
     local query = {
@@ -60,7 +64,7 @@ function home:node(path)
         if trim(segs[i]) ~= "" then
             root = false
             local flag = false
-            local t = r and r:children() or home:list()
+            local t = r and r:children() or self:list()
             if t == nil then return nil end
             for k, n in ipairs(t) do
                 if n.name == segs[i] then
@@ -77,7 +81,7 @@ function home:node(path)
 end
 
 function home:download(id, path)
-    home:update()
+    self:update()
     local query = {
         ["channel"] = "chunlei",
         ["web"] = "1",
@@ -103,7 +107,7 @@ function home:download(id, path)
 end
 
 function home:pcs_download(id, path)
-    home:update()
+    self:update()
     local query = {
         ["method"] = "download",
         ["app_id"] = "250528",
@@ -114,6 +118,35 @@ end
 
 function home:transfer()
     return nil
+end
+
+function home:mkdir(parent, name)
+    self:update()
+    local query = {
+        ["a"] = "commit",
+        ["channel"] = "chunlei",
+        ["web"] = "1",
+        ["app_id"] = "250528",
+        ["bdstoken"] = self.bdstoken,
+        ["clienttype"] = "0"
+    }
+    local form = {
+        ["path"] = parent .. "/" .. name,
+        ["isdir"] = "1",
+        ["block_list"] = "[]"
+    }
+    local response = (https.post(apis.HOME_MKDIR .. "?" .. http_util.dict_to_query(query), http_util.dict_to_query(form), {
+        ["accept"] = "*/*",
+        ["accept-language"] = "zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4",
+        ["accept-encoding"] = "deflate, br",
+        ["content-type"] = "application/x-www-form-urlencoded; charset=UTF-8",
+        ["connection"] = "keep-alive",
+        ["referer"] = "https://pan.baidu.com/disk/home?",
+        ["origin"] = "https://pan.baidu.com",
+        ["x-requested-with"] = "XMLHttpRequest"
+    }))
+    response = assert(json.decode(response))
+    return self:node(parent .. "/" .. name), response.status
 end
 
 return home

@@ -8,6 +8,7 @@ return {
     
     HOME_LIST = "https://pan.baidu.com/api/list",
     HOME_DOWNLOAD = "https://pan.baidu.com/api/download",
+    HOME_MKDIR = "https://pan.baidu.com/api/create",
     
     PCS = "https://pcs.baidu.com/rest/2.0/pcs/file"
 }

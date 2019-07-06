@@ -56,6 +56,11 @@ function instance_children:pcs_download()
     end
 end
 
+function instance_children:mkdir(name)
+    if not self.is_dir then return nil
+    else return self.navigator:mkdir(self.path, name)
+    end
+end
 
 return {
     new = new

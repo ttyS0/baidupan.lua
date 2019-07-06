@@ -10,6 +10,7 @@ print(baidupan.cookies())
 
 -- Print the (PCS) link of each file (not directory) in home path /Books
 local n = home:node("/Books")
+n:mkdir("Hello")
 for k, v in ipairs(n:children()) do
     if not v.is_dir then
         -- local l = v:pcs_download()
