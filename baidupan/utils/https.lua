@@ -68,8 +68,12 @@ function https.save_cookie_file(path)
     f:close()
 end
 
-function https.get(url, headers)
-    assert(trim(url):lower():find("https") == 1, "Protocol is not supported by Baidu Netdisk, try with HTTPS.")
+function https.get(url, headers, max_try, timeout)
+    -- Timeout init
+    local try = 1
+    if max_try == nil then max_try = 5 end
+    if timeout == nil then timeout = 10 end
+    -- assert(trim(url):lower():find("https") == 1, "Protocol is not supported by Baidu Netdisk, try with HTTPS.")
     local destination = url
     local redirects = 0
     local req = http_request.new_from_uri(url)
@@ -81,24 +85,43 @@ function https.get(url, headers)
             req.headers:upsert(k:lower(), v)
         end
     end
-    local res_headers, res_stream = assert(req:go())
+    local res_headers, res_stream = req:go(timeout)
+    -- Possible hanging on streaming
+    while res_headers == nil and try < max_try do
+        res_headers, res_stream = req:go(timeout)
+        try = try + 1
+    end
+    if res_headers == nil then return nil end
     while res_headers:get("location") do
         redirects = redirects + 1
         if redirects > 5 then break end
         destination = res_headers:get("location")
-        res_headers, res_stream = assert(req:handle_redirect(res_headers):go())
+        new_res_headers, new_res_stream = req:handle_redirect(res_headers):go(timeout)
+        while new_res_headers == nil and try < max_try do
+            new_res_headers, new_res_stream = req:handle_redirect(res_headers):go(timeout)
+            try = try + 1
+        end
+        if new_res_headers == nil then return nil
+        else
+            res_headers = new_res_headers
+            res_stream = new_res_stream
+        end
     end
     local res_body = assert(res_stream:get_body_as_string())
     if res_headers:has("set-cookie") then
         for i, v in pairs(res_headers:get_as_sequence("set-cookie")) do
-	        https.update_cookies(v)
-	    end
-	end
+	    https.update_cookies(v)
+        end
+    end
     return res_body, destination, res_headers
 end
 
-function https.post(url, data, headers)
-    assert(trim(url):lower():find("https") == 1, "Protocol is not supported by Baidu Netdisk, try again with HTTPS.")
+function https.post(url, data, headers, max_try, timeout)
+    -- Timeout init
+    local try = 1
+    if max_try == nil then max_try = 5 end
+    if timeout == nil then timeout = 10 end
+    -- assert(trim(url):lower():find("https") == 1, "Protocol is not supported by Baidu Netdisk, try again with HTTPS.")
     local req = http_request.new_from_uri(url)
     req.headers:upsert(":method", "POST")
     req.headers:upsert("user-agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.9 Safari/537.36")
@@ -109,12 +132,18 @@ function https.post(url, data, headers)
             req.headers:upsert(k:lower(), v)
         end
     end
-    local res_headers, res_stream = assert(req:go())
-	for i, v in pairs(res_headers) do
-		if i:lower() == "set-cookie" then
-			https.update_cookies(v)
-		end
-	end
+    local res_headers, res_stream = req:go(timeout)
+    -- Possible hanging on streaming
+    while res_headers == nil and try < max_try do
+        res_headers, res_stream = req:go(timeout)
+        try = try + 1
+    end
+    if res_headers == nil then return nil end
+    for i, v in pairs(res_headers) do
+        if i:lower() == "set-cookie" then
+            https.update_cookies(v)
+        end
+    end
     return assert(res_stream:get_body_as_string())
 end
 
